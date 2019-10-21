@@ -15,7 +15,7 @@ def request(sitename, function):
 
 
 if __name__ == "__main__":
-    data = request("资产设备管理系统", "获取系统名称")
-    print(len(data))
+    data = request("资产设备管理系统", "首页_解决方案")
+    print("记录数量：", len(data))
     for i in data:
-        print(i['sys_name'])
+        print(i)

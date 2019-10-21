@@ -5,6 +5,7 @@ from core import get_data
 from conf import conf
 
 
+# 生成PPT
 def genarate(site_name, temp):
     ppt = win32com.client.Dispatch('PowerPoint.Application')
 
@@ -26,7 +27,7 @@ def genarate(site_name, temp):
         tempPPT.Slides(1).Shapes(i).TextFrame.TextRange.text = page_1[i - 1]
         print(tempPPT.Slides(1).Shapes(i).TextFrame.TextRange.text)
 
-    # 目录页
+    # 目录页由模板指定 不需要再更改
     # tempPPT.Slides(2).Shapes(1).TextFrame.TextRange.Text="目录测试1\n目录测试2"
 
     # 修改标题
@@ -60,10 +61,8 @@ def genarate(site_name, temp):
     # 文件保存名称
     # get_data.request(site, "获取系统名称")[0]['sys_name'] #请求查询系统名称
     saveName = site_name + time.strftime('%Y%m%d', time.localtime(time.time())) + ".pptx"
-
     # 保存为指定ppt
     tempPPT.SaveAs(conf.save_path + "\\" + saveName)
-
     # 退出ppt
     ppt.Quit()
 
