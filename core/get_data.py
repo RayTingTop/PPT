@@ -1,8 +1,9 @@
 import requests
 from conf import conf
 
+
 # 获取指定数据
-def getData(sitename, function):
+def request(sitename, function):
     url = conf.urls[function]
     par = {'token': "chenksoft!@!", 'domain': conf.sites[sitename]}
     header = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -14,7 +15,7 @@ def getData(sitename, function):
 
 
 if __name__ == "__main__":
-    data = getData("文件档案管理系统", "首页_功能")
+    data = request("资产设备管理系统", "获取系统名称")
     print(len(data))
     for i in data:
-        print(i)
+        print(i['sys_name'])

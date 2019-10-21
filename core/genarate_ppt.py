@@ -1,8 +1,11 @@
 import win32com
 import win32com.client
+import time
 from core import get_data
+from conf import conf
 
-def testppt():
+
+def genarate(site_name, temp):
     ppt = win32com.client.Dispatch('PowerPoint.Application')
 
     # 是否显示打开的文件
@@ -11,17 +14,17 @@ def testppt():
     # 屏蔽错误弹框提示
     ppt.DisplayAlerts = False
 
-    # 打开ppt
-    tempPPT = ppt.Presentations.Open('D:\\PythonProjects\\PPT\\ppt_template\\temp1.pptx')
+    # 打开模板
+    tempPPT = ppt.Presentations.Open(conf.temps[temp])
 
     # 总页数
     pagescount = tempPPT.Slides.Count
 
-    # 首页处理
-    # page_1=['小标题','大标题','公司名','网址']
-    # for i in range(1,len(page_1)+1):
-    #     tempPPT.Slides(1).Shapes(i).TextFrame.TextRange.text=page_1[i-1]
-    #     print(tempPPT.Slides(1).Shapes(i).TextFrame.TextRange.text)
+    # 首页处理 小标题，大标题，公司，网址
+    page_1 = [conf.pptinfo['小标题'], site_name, conf.pptinfo['公司名'], conf.pptinfo['网址']]
+    for i in range(1, len(page_1) + 1):
+        tempPPT.Slides(1).Shapes(i).TextFrame.TextRange.text = page_1[i - 1]
+        print(tempPPT.Slides(1).Shapes(i).TextFrame.TextRange.text)
 
     # 目录页
     # tempPPT.Slides(2).Shapes(1).TextFrame.TextRange.Text="目录测试1\n目录测试2"
@@ -54,14 +57,16 @@ def testppt():
     # print(slide_count)
     # tempPPT.Slides(1).Shapes(4).TextFrame.TextRange.Text="详细2"
 
+    # 文件保存名称
+    # get_data.request(site, "获取系统名称")[0]['sys_name'] #请求查询系统名称
+    saveName = site_name + time.strftime('%Y%m%d', time.localtime(time.time())) + ".pptx"
+
     # 保存为指定ppt
-    tempPPT.SaveAs(r'D:\PythonProjects\PPT_Genarate\file\newppt.pptx')
+    tempPPT.SaveAs(conf.save_path + "\\" + saveName)
 
     # 退出ppt
-    # ppt.Quit()
+    ppt.Quit()
 
 
 if __name__ == "__main__":
-
-    testppt()
-
+    genarate('资产设备管理系统', "模板1")
