@@ -6,7 +6,7 @@ save_path = r"D:\PythonProjects\PPT\ppt_save"
 # 使用模板
 temps = {
     '模板1': r"D:\PythonProjects\PPT\ppt_template\template1.pptx",
-    # '模板2': r"D:\PythonProjects\PPT\ppt_template\template2.pptx"
+    '模板2': r"D:\PythonProjects\PPT\ppt_template\template2.pptx"
 }
 
 # 站点
@@ -45,6 +45,7 @@ urls = {
 # ppt的基础信息
 pptinfo = {
     "公司名": "杭州晨科软件技术有限公司",
+    "项目名": "ProNmme",
     "小标题": "管理软件定制专家",
     "网址": "www.chenksoft.com",
     "电话": "400-6990-220",

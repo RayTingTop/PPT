@@ -3,19 +3,24 @@ from win32com.client import Dispatch, constants
 
 ppt = win32com.client.Dispatch('PowerPoint.Application')
 ppt.Visible = 1
-pptSel = ppt.Presentations.Open("C:\\web\\phpStudy\\WWW\\ppt\\Russia\\1.pptx")
+pptSel = ppt.Presentations.Open(r"D:\PythonProjects\PPT\ppt_template\template2.pptx")
 
-# win32com.client.gencache.EnsureDispatch('PowerPoint.Application')
-# # #get the ppt's pages
-#
-# slide_count = pptSel.Slides.Count
-#
-# for i in range(1, slide_count + 1):
-#         shape_count = pptSel.Slides(i).Shapes.Count
-#         print(shape_count)
-#
-# for j in range(1, shape_count + 1):
-#     if pptSel.Slides(i).Shapes(j).HasTextFrame:
-#         s = pptSel.Slides(i).Shapes(j).TextFrame.TextRange.Text
-#         print(s.encode('utf-8') + "\n")
+win32com.client.gencache.EnsureDispatch('PowerPoint.Application')
+# #get the ppt's pages
+
+slide_count = pptSel.Slides.Count
+
+for i in range(4, slide_count + 1):
+    slide = pptSel.Slides(i)
+    shape_count = slide.Shapes.Count
+    print(i, "页")
+
+    # print(slide.Shapes.Title.TextFrame.TextRange.Text)
+
+    for j in range(1, shape_count + 1):
+        if slide.Shapes(j).HasTextFrame:
+            # 每一个内容   类型14 大标题
+            s = slide.Shapes(j).TextFrame.TextRange.Text
+            print(" ",j, slide.Shapes(j).Type, s)
+    print("\n")
 # ppt.Quit()
