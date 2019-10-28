@@ -72,20 +72,25 @@ def first_page(tempPPT):
 
 # 功能
 def func_pages(tempPPt, site):
+    print("生成功能列表：")
+    # 功能模板
+    index = 4  # 功能下标
+    slide = tempPPt.Slides(index)
     # 查询数据
     func_title = get_data.request(site, "首页_功能标题")  # 标题
     funcs = get_data.request(site, "首页_功能")  # 数据
 
-    slide = tempPPt.Slides(4)  # 方法模板
     # 循环数据，每一条记录保存为一页
-    for i in range(1, len(funcs)):
-        print("保存功能页面:", i, funcs[i]["func_title"])
-        print(slide.Shapes(1).TextFrame.TextRange.Text)
-        slide.Shapes(1).TextFrame.TextRange.Text = func_title  # 设置大标题
+    for i in range(0, len(funcs)):
+        slide.Shapes(1).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
         slide.Shapes(5).TextFrame.TextRange.Text = funcs[i]["func_title"]  # 设置小标题
         slide.Shapes(6).TextFrame.TextRange.Text = funcs[i]["func_content"]  # 设置内容标题
+        print("", (i + 1), slide.Shapes(5).TextFrame.TextRange.Text)
+
+        # 复制粘贴
         slide.Copy()
-        slide.Paste(5)
+        tempPPt.Slides.Paste(index + i + 1)  # 保存到上一页之后
+    slide.Delete() #删掉多余模板
 
 
 # 解决方案

@@ -40,8 +40,8 @@ def index_solution(sitename):
 
 
 if __name__ == "__main__":
-    data = request("资产设备管理系统", "首页_功能")
-    data = index_func("资产设备管理系统")
+    data = request("资产设备管理系统", "首页_功能标题")
+    # data = index_func("资产设备管理系统")
     print("记录数量：", len(data))
     for i in data:
         print(i)
