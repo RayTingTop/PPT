@@ -4,13 +4,14 @@ from win32com.client import Dispatch, constants
 ppt = win32com.client.Dispatch('PowerPoint.Application')
 ppt.Visible = 1
 pptSel = ppt.Presentations.Open(r"D:\PythonProjects\PPT\ppt_template\template2.pptx")
+# pptSel = ppt.Presentations.Open(r"D:\PythonProjects\PPT\ppt_save\资产设备管理系统20191029.pptx")
 
 win32com.client.gencache.EnsureDispatch('PowerPoint.Application')
 # #get the ppt's pages
 
 slide_count = pptSel.Slides.Count
 
-for i in range(4, slide_count + 1):
+for i in range(5, slide_count + 1):
     slide = pptSel.Slides(i)
     shape_count = slide.Shapes.Count
     print(i, "页")

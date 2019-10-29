@@ -1,12 +1,18 @@
 # 配置信息
 
-# 生成路径
-save_path = r"D:\PythonProjects\PPT\ppt_save"
+# 项目根目录,跟换地址先设置
+path_root = "D:\\PythonProjects\\PPT\\"
 
-# 使用模板
-temps = {
-    '模板1': r"D:\PythonProjects\PPT\ppt_template\template1.pptx",
-    '模板2': r"D:\PythonProjects\PPT\ppt_template\template2.pptx"
+# 下载图片路径
+path_images = path_root + "ppt_images\\"
+
+# ppt生成路径
+path_save = path_root + "ppt_save\\"
+
+# 使用模板路径
+path_temps = {
+    '模板1': path_root + r"ppt_template\template1.pptx",
+    '模板2': path_root + r"ppt_template\template2.pptx"
 }
 
 # 站点
@@ -37,9 +43,12 @@ urls = {
     '产品页_页底部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pro-foot.jsp",  # 0
     '获取产品ID及名称': "http://hz.chenksoft.com:80/ckapi/api/1/v2/select_pro_id.jsp",
 
-    '获取系统名称': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_sys_name.jsp",#1
+    '获取系统名称': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_sys_name.jsp",  # 1
     '获取视频信息': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_video.jsp",
-    '根据id获取视频url': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_videourl_byid.jsp"
+    '根据id获取视频url': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_videourl_byid.jsp",
+
+    '下载': "http://hz.chenksoft.com/SK_CFW_Servlet.do",
+    '产品简介': "http://hz.chenksoft.com/ckapi/api/1/v2/product_top_content.jsp?token=chenksoft!@!&domain=eam.chenksoft.com%2Fcol.jsp%3Fid%3D10"
 }
 
 # ppt的基础信息
