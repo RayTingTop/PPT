@@ -1,10 +1,11 @@
 import win32com
 from win32com.client import Dispatch, constants
+from conf import conf
 
 ppt = win32com.client.Dispatch('PowerPoint.Application')
 ppt.Visible = 1
-pptSel = ppt.Presentations.Open(r"D:\PythonProjects\PPT\ppt_template\template2.pptx")
-# pptSel = ppt.Presentations.Open(r"D:\PythonProjects\PPT\ppt_save\资产设备管理系统20191029.pptx")
+pptSel = ppt.Presentations.Open(conf.path_temp["模板2"])
+# pptSel = ppt.Presentations.Open(r"D:\PythonProjects\PPT\file\ppt_save\资产设备管理系统20191029.pptx")
 
 win32com.client.gencache.EnsureDispatch('PowerPoint.Application')
 # #get the ppt's pages

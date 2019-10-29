@@ -23,7 +23,7 @@ def downfile(name, type):
     header = {'Content-Type': 'application/x-www-form-urlencoded'}
 
     filename = str(name) + type
-    filepath = conf.path_images + filename
+    filepath = conf.path_image + filename
     response = requests.post(url, par, header)
     if response.status_code == 200:
         # 保存图片到图片路径

@@ -4,15 +4,15 @@
 path_root = "D:\\PythonProjects\\PPT\\"
 
 # 下载图片路径
-path_images = path_root + "ppt_images\\"
+path_image = path_root + "file\\image\\"
 
 # ppt生成路径
-path_save = path_root + "ppt_save\\"
+path_save = path_root + "file\\ppt_save\\"
 
 # 使用模板路径
-path_temps = {
-    '模板1': path_root + r"ppt_template\template1.pptx",
-    '模板2': path_root + r"ppt_template\template2.pptx"
+path_temp = {
+    '模板1': path_root + r"file\ppt_temp\temp1.pptx",
+    '模板2': path_root + r"file\ppt_temp\temp2.pptx"
 }
 
 # 站点

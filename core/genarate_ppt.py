@@ -7,14 +7,14 @@ from conf import conf
 
 
 # 生成PPT
-def genarate(site, temp):
+def genarate(site, tempname):
     ppt = win32com.client.Dispatch('PowerPoint.Application')
     # 是否显示打开的文件
     ppt.Visible = True
     # 屏蔽错误弹框提示
     ppt.DisplayAlerts = False
     # 打开模板
-    tempPPT = ppt.Presentations.Open(conf.path_temps[temp])
+    tempPPT = ppt.Presentations.Open(conf.path_temp[tempname])
 
     # 系统名称
     sys_neme = get_data.request("资产设备管理系统", "获取系统名称")[0]["sys_name"]
@@ -50,7 +50,7 @@ def genarate(site, temp):
     ppt.Quit()
 
     # 完成之后删除图片
-    os.chdir(conf.path_images)
+    os.chdir(conf.path_image)
     os.system('del /Q *.png')
 
 
@@ -64,6 +64,7 @@ def first_page(tempPPT):
         if slide.Shapes(i).HasTextFrame:
             slide.Shapes(i).TextFrame.TextRange.Text = page1_content[i - 1]
             print(" ", i, page1_content[i - 1])
+
 
 # 产品简介
 def intro(tempPPt, site):
