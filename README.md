@@ -7,7 +7,7 @@
     <li>模板路径：path_temp</li>
     <li>保存路径：path_save</li>
     <li>网站站点：sites</li>
-    <li>请求地址：urls</li>
+    <li>请求地址：urls</li> 
     <li>基础信息：pptinfo</li>
 </ul>  
 
