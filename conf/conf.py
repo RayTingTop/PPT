@@ -45,27 +45,28 @@ products = {
 
 # 请求
 urls = {
-    '首页_功能': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_func.jsp",
-    '首页_优点': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_adv.jsp",  # 0
-    '首页_解决方案': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_solution.jsp",
-    '轮播图': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pic.jsp",
-    '首页_功能标题': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_func_title.jsp",  # 1
-    '首页_优点说明': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_adv_description.jsp",  # 0
-    '首页_解决方案标题': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_solution_title.jsp",  # 1
+    '轮播图': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pic.jsp",  # 有数据
+    '下载': "http://hz.chenksoft.com/SK_CFW_Servlet.do",
 
-    '产品页_顶部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_top_content.jsp",  # 0
-    '产品页_顶部标签': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_top_lable.jsp",  # 0
-    '产品页_中间标题': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_center_title.jsp",  # 0
-    '产品页_中间内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_center_content.jsp",  # 0
-    '产品页_底部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pruduct_foot_content.jsp",  # 0
-    '产品页_页底部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pro-foot.jsp",  # 0
-    '获取产品ID及名称': "http://hz.chenksoft.com:80/ckapi/api/1/v2/select_pro_id.jsp",
+    '首页_优点说明': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_adv_description.jsp",  # 有数据 1（有些系统没有写优点）
+    '首页_优点': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_adv.jsp",  # 有数据（有些系统没有写优点）
+    '首页_功能标题': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_func_title.jsp",  # 有数据 1
+    '首页_功能': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_func.jsp",  # 有数据
+    '首页_解决方案标题': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_solution_title.jsp",  # 1
+    '首页_解决方案': "http://hz.chenksoft.com:80/ckapi/api/1/v2/index_solution.jsp",  # 有数据
+
+    '产品页_顶部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_top_content.jsp",  # 有数据
+    '产品页_顶部标签': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_top_lable.jsp",  # 有数据
+    '产品页_中间标题': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_center_title.jsp",  # 有数据 1
+    '产品页_中间内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/product_center_content.jsp",  # 有数据
+    '产品页_底部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pro-foot.jsp",   # 有数据 （产品功能和截图）
+
+    '产品_底部内容': "http://hz.chenksoft.com:80/ckapi/api/1/v2/pruduct_foot_content.jsp",  # 0
+    '获取产品ID及名称': "http://hz.chenksoft.com:80/ckapi/api/1/v2/select_pro_id.jsp",  # 有数据
 
     '获取系统名称': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_sys_name.jsp",  # 1
     '获取视频信息': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_video.jsp",
     '根据id获取视频url': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_videourl_byid.jsp",
-
-    '下载': "http://hz.chenksoft.com/SK_CFW_Servlet.do",
 }
 
 # ppt的基础信息

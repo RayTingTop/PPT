@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import win32com
 import win32com.client
 from core import get_data
@@ -27,20 +28,16 @@ def genarate(sys, product, temp_name):
     slide_count = tempPPT.Slides.Count
     print('读取模板成功，模板页数', slide_count)
 
-    # 首页，封面页
-    first_page(tempPPT)
+    first_page(tempPPT)  # 首页，封面页
 
-    # 3.1产品方案-产品简介
-    pro_intro(4, tempPPT, conf.info["项目名"])
+    unit_2 = 3
+    sys_adv(unit_2 + 1, tempPPT, conf.info["系统名"])  # 2.4问题分析-优点 （数据在首页）
 
-    # 3.2产品方案-功能特点
-    pro_function(5, tempPPT, conf.info["项目名"])
-
-    # 3.3产品方案-解决方案（行业）
-    pro_solution(6, tempPPT, conf.info["系统名"])
-
-    # 3.4产品方案-功能展示（截图）
-    pro_function_show(7, tempPPT, conf.info["项目名"])
+    unit_3 = 5
+    # pro_intro(unit_3 + 1, tempPPT, conf.info["项目名"])  # 3.1产品方案-产品简介
+    # pro_function(unit_3 + 2, tempPPT, conf.info["项目名"])  # 3.2产品方案-功能特点
+    # pro_solution(unit_3 + 3, tempPPT, conf.info["系统名"])  # 3.3产品方案-解决方案（行业）
+    pro_function_show(unit_3 + 4, tempPPT, conf.info["项目名"])  # 3.4产品方案-功能展示（截图）
 
     # 保存
     save(tempPPT, conf.info["项目名"])
@@ -58,6 +55,25 @@ def first_page(tempPPT):
         if slide.Shapes(i).HasTextFrame:
             slide.Shapes(i).TextFrame.TextRange.Text = page1_content[i - 1]
             print(" ", i, page1_content[i - 1])
+
+
+# 2.4问题分析-优点（数据在首页）
+def sys_adv(index, tempPPT, sys):
+    print("\n2.4问题分析-产品优点：")
+    # 功能模板
+    slide = tempPPT.Slides(index)
+    # 查询数据
+    adv_description = get_data.request("首页", sys, "首页_优点说明")  # 中标题，中内容
+    adv = get_data.request("首页", sys, "首页_优点")  # 小标题
+
+    slide.Shapes(1).TextFrame.TextRange.Text = "专业的" + sys  # 设置大标题
+    slide.Shapes(7).TextFrame.TextRange.Text = adv_description[0]["index_adv_title"]  # 设置中标题
+    slide.Shapes(8).TextFrame.TextRange.Text = adv_description[0]["index_adv_description"]  # 设置中内容
+
+    slide.Shapes(11).TextFrame.TextRange.Text = "1." + adv[0]["index_adv_content"]  # 设置中标题
+    slide.Shapes(15).TextFrame.TextRange.Text = "2." + adv[1]["index_adv_content"]  # 设置中内容
+    slide.Shapes(13).TextFrame.TextRange.Text = "3." + adv[2]["index_adv_content"]  # 设置中标题
+    slide.Shapes(17).TextFrame.TextRange.Text = "4." + adv[3]["index_adv_content"]  # 设置中内容
 
 
 # 3.1产品方案-产品简介
@@ -134,15 +150,59 @@ def pro_solution(index, tempPPT, sys):
         newtext.Apply()
 
         print("", i, newtext.TextFrame.TextRange.Text)
-    # 完成后删除模板自带shapes
+    # 完成后删除模板自带图片部分shapes
     for i in range(4, 22):
-        slide.Shapes(4).Delete()
+        slide.Shapes(4).Delete()  # 删除后下标会往前移动，一直删除第一个图片即可
 
 
 # 3.4产品方案-功能展示截图
-def pro_function_show(index, tempPPT, sys):
+def pro_function_show(index, tempPPT, product):
     print("\n3.4产品方案-解决方案：")
-    slide = tempPPT.Slides(index)
+    slide_temp = tempPPT.Slides(index)
+    function_show = get_data.request("产品", product, "产品页_底部内容")
+    funs = json.loads(function_show[0]["result"])  # 数据字符串处理为json
+
+    # 循环数据，每一条模块保存为一页
+    for fun in funs:
+        slide_temp.Copy()  # 复制模板并粘贴新出新页面以保存内容
+        index += 1
+        slide = tempPPT.Slides.Paste(index)  # 粘贴在模板的下一页
+
+        slide.Shapes(1).TextFrame.TextRange.Text = "核心模块 - "+fun["title"]  # 设置大标题
+        slide.Shapes(9).TextFrame.TextRange.Text = fun["title"]  # 中标题
+
+        # 图片
+        shape_image = slide.Shapes(7)
+        filepath = get_data.downfile(fun["item"][0]['img'][:-1], ".png")  # 下载图标,这里截取掉分号
+        # 插入图片,设置尺寸为模板
+        slide.Shapes.AddPicture(FileName=filepath, LinkToFile=False, SaveWithDocument=True, Left=shape_image.Left,
+                                Top=shape_image.Top, Width=shape_image.Width, Height=shape_image.Height)
+        # 文本（小功能标题+内容）
+        text = fun["item"][0]['text']
+        # 第一组文本
+        slide.Shapes(10).TextFrame.TextRange.Text = text[0]['subtitle']  # 小标题
+        slide.Shapes(11).TextFrame.TextRange.Text = text[0]['subcontent']  # 小内容
+        # 剩余的文本
+        for t in range(1, len(text)):
+            title = slide.Shapes(10)
+            content = slide.Shapes(11)
+            # 插入新的文本框(位置与样式)
+            newtitle = slide.Shapes.AddShape(Type=1, Left=title.Left, Top=title.Top + t * 70,
+                                             Width=title.Width, Height=title.Height)
+            newcontent = slide.Shapes.AddShape(Type=1, Left=content.Left, Top=content.Top + t*70,
+                                               Width=content.Width, Height=content.Height)
+            # 填充文本
+            newtitle.TextFrame.TextRange.Text = text[t]['subtitle']
+            newcontent.TextFrame.TextRange.Text = text[t]['subcontent']
+            # 文本框样式
+            title.PickUp()
+            newtitle.Apply()
+            content.PickUp()
+            newcontent.Apply()
+
+        slide.Shapes(7).Delete()  # 删除图片模板
+        print("", index, slide.Shapes(1).TextFrame.TextRange.Text)
+    slide_temp.Delete()  # 删掉多余模板
 
 
 # 保存ppt

@@ -25,7 +25,7 @@ slide_count = pptSel.Slides.Count
 # tempPPT.Slides.Paste(5)
 
 # for i in range(5, slide_count + 1):
-for i in range(4, 5):
+for i in range(9, 10):
     slide = pptSel.Slides(i)
     shape_count = slide.Shapes.Count
     print(i, "页")

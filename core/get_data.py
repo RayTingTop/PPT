@@ -1,3 +1,4 @@
+import json
 import requests
 from conf import conf
 
@@ -6,7 +7,7 @@ from conf import conf
 def request(type, name, function):
     # 判断域名
     domain = conf.products[name] if (type == "产品") else conf.sites[name]
-    print("..............getdata", type, name, function)
+    print("———————————————getdata", type, name, function)
 
     url = conf.urls[function]
     par = {'token': "chenksoft!@!", 'domain': domain}
@@ -37,11 +38,16 @@ def downfile(name, typename):
 
 
 def testrequest():
-    data = request("产品", "晨科图书管理系统", "产品页_顶部内容")
+    data = request("产品", "晨科图书管理系统", "产品页_底部内容")
+    # data = request("ss", "售后工单管理系统", "首页_优点说明")
+    # data = request("ss", "售后工单管理系统", "首页_优点")
     # data = index_func("资产设备管理系统")
     print("记录数量：", len(data))
     for i in data:
-        print(i)
+        result = json.loads(i["result"])
+        for j in result:
+            print(j)
+            print()
 
 
 if __name__ == "__main__":
