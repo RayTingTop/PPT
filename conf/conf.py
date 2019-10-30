@@ -15,7 +15,7 @@ path_temp = {
     '模板2': path_root + r"file\ppt_temp\temp2.pptx"
 }
 
-# 站点
+# 站点主页
 sites = {
     '资产设备管理系统': "eam.chenksoft.com",  # 资产设备管理系统
     '文件档案管理系统': "doc.chenksoft.com",  # 文件档案管理系统
@@ -23,6 +23,24 @@ sites = {
     '项目管理系统': "pms.chenksoft.com",  # 项目管理系统
     'ERP管理系统': "erp.chenksoft.com",  # ERP管理系统
     '售后工单管理系统': "tms.chenksoft.com"  # 售后工单管理系统
+}
+
+# 产品页面
+
+products = {
+    '晨科资产管理系统': sites['资产设备管理系统']+"/col.jsp?id=10",
+    '晨科设备管理系统': sites['资产设备管理系统']+"/col.jsp?id=11",
+
+    '晨科图书管理系统': sites['图书管理系统']+"/col.jsp?id=31",
+
+    '晨科业务管理系统': sites['项目管理系统']+"/col.jsp?id=6",
+
+    '晨科机械制造业ERP管理系统': sites['ERP管理系统']+"/col.jsp?id=17",
+    '晨科鞋服生产ERP管理系统': sites['ERP管理系统']+"/col.jsp?id=18",
+    '晨科化工行业ERP管理系统': sites['ERP管理系统']+"/col.jsp?id=17",
+    '晨科家具生产ERP管理系统': sites['ERP管理系统']+"/col.jsp?id=17",
+
+    '晨科售后工单管理系统': sites['售后工单管理系统']+"/col.jsp?id=8",
 }
 
 # 请求
@@ -48,13 +66,15 @@ urls = {
     '根据id获取视频url': "http://hz.chenksoft.com:80/ckapi/api/1/v2/get_videourl_byid.jsp",
 
     '下载': "http://hz.chenksoft.com/SK_CFW_Servlet.do",
-    '产品简介': "http://hz.chenksoft.com/ckapi/api/1/v2/product_top_content.jsp?token=chenksoft!@!&domain=eam.chenksoft.com%2Fcol.jsp%3Fid%3D10"
 }
 
 # ppt的基础信息
-pptinfo = {
-    "公司名": "杭州晨科软件技术有限公司",
-    "项目名": "ProNmme",
+info = {
+    "公司": "杭州晨科软件技术有限公司",
+
+    "系统名": "sysname",
+    "项目名": "proname",
+
     "小标题": "管理软件定制专家",
     "网址": "www.chenksoft.com",
     "电话": "400-6990-220",

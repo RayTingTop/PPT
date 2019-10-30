@@ -7,97 +7,95 @@ from conf import conf
 
 
 # 生成PPT
-def genarate(site, tempname):
+# site:主页
+# producte：产品
+# temp：使用模板
+def genarate(sys, product, temp_name):
     ppt = win32com.client.Dispatch('PowerPoint.Application')
     # 是否显示打开的文件
     ppt.Visible = True
     # 屏蔽错误弹框提示
     ppt.DisplayAlerts = False
     # 打开模板
-    tempPPT = ppt.Presentations.Open(conf.path_temp[tempname])
+    tempPPT = ppt.Presentations.Open(conf.path_temp[temp_name])
 
-    # 系统名称
-    sys_neme = get_data.request("资产设备管理系统", "获取系统名称")[0]["sys_name"]
-    conf.pptinfo["项目名"] = sys_neme
+    # 保存信息
+    conf.info["系统名"] = sys
+    conf.info["项目名"] = product
 
     # 总页数
     slide_count = tempPPT.Slides.Count
     print('读取模板成功，模板页数', slide_count)
 
-    # 首页
+    # 首页，封面页
     first_page(tempPPT)
 
-    # 目录页由模板指定 不需要再更改
-    # tempPPT.Slides(2).Shapes(1).TextFrame.TextRange.Text="目录测试1\n目录测试2"
+    # 3.1产品方案-产品简介
+    pro_intro(4, tempPPT, conf.info["项目名"])
 
-    # 修改标题,Title不一定每页都有
-    # tempPPT.Slides(4).Shapes.Title.TextFrame.TextRange.Text = "子页标题"
-    # print(tempPPT.Slides(4).Shapes.Title.TextFrame.TextRange.Text)
+    # 3.2产品方案-功能特点
+    pro_function(5, tempPPT, conf.info["项目名"])
 
-    # 功能
-    func_pages(tempPPT, site)
-    # 解决方案
-    solution(tempPPT, site)
+    # 3.3产品方案-解决方案（行业）
+    pro_solution(6, tempPPT, conf.info["系统名"])
 
-    # 查找一页并且复制
-    # tempPPT.Slides.FindBySlideID(270).Copy()
-    # 粘贴到指定index之前,不写则追加到最后
-    # tempPPT.Slides.Paste(5)
+    # 3.4产品方案-功能展示（截图）
+    pro_function_show(7, tempPPT, conf.info["项目名"])
 
     # 保存
-    save(tempPPT)
+    save(tempPPT, conf.info["项目名"])
     # 退出ppt
     ppt.Quit()
 
-    # 完成之后删除图片
-    os.chdir(conf.path_image)
-    os.system('del /Q *.png')
 
-
-# 首页
+# 首页封面
 def first_page(tempPPT):
     #  处理小标题，大标题，公司，网址
     slide = tempPPT.Slides(1)
     print('\n处理首页,模型数量:', slide.Shapes.Count)
-    page1_content = [conf.pptinfo['小标题'], conf.pptinfo["项目名"], conf.pptinfo['公司名'], conf.pptinfo['网址']]
+    page1_content = [conf.info['小标题'], conf.info["项目名"], conf.info['公司'], conf.info['网址']]
     for i in range(1, len(page1_content) + 1):
         if slide.Shapes(i).HasTextFrame:
             slide.Shapes(i).TextFrame.TextRange.Text = page1_content[i - 1]
             print(" ", i, page1_content[i - 1])
 
 
-# 产品简介
-def intro(tempPPt, site):
-    print("\n生成产品简：")
+# 3.1产品方案-产品简介
+def pro_intro(index, tempPPT, product):
+    print("\n3.1产品方案-产品简介：")
+    slide = tempPPT.Slides(index)
+    top_content = get_data.request("产品", product, "产品页_顶部内容")  # 产品顶部信息
+    slide.Shapes(7).TextFrame.TextRange.Text = top_content[0]["skt16.skf179"]  # 简介标题
+    slide.Shapes(8).TextFrame.TextRange.Text = top_content[0]["skt16.skf181"]  # 简介内容
+    slide.Shapes(10).TextFrame.TextRange.Text = top_content[0]["skt16.skf180"]  # 简介概括
 
 
-# 功能页
-def func_pages(tempPPt, site):
-    print("\n生成功能列表：")
+# 3.2产品方案-功能特点
+def pro_function(index, tempPPT, product):
+    print("\n3.2产品方案-系统功能：")
     # 功能模板
-    index = 5  # 功能下标
-    slide = tempPPt.Slides(index)
+    slide = tempPPT.Slides(index)
     # 查询数据
-    func_title = get_data.request(site, "首页_功能标题")  # 大标题
-    funcs = get_data.request(site, "首页_功能")  # 数据
+    center_title = get_data.request("产品", product, "产品页_中间标题")  # 大标题
+    funcs = get_data.request("产品", product, "产品页_中间内容")  # 数据
 
-    slide.Shapes(1).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
-    slide.Shapes(6).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
-    slide.Shapes(7).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
+    slide.Shapes(1).TextFrame.TextRange.Text = center_title[0]["skt18.skf196"]  # 设置大标题
+    # slide.Shapes(6).TextFrame.TextRange.Text = center_title[0]["skt18.skf196"]  # 设置中标题
+    # slide.Shapes(7).TextFrame.TextRange.Text = center_title[0]["skt18.skf196"]  # 设置中内容
     # 循环数据，每一条记录保存为一页
     for i in range(0, len(funcs)):
         sh_index = int(i / 3 + 1) * 10 + int(i % 3 + 1) * 3  # 下标
 
-        slide.Shapes(sh_index).TextFrame.TextRange.Text = funcs[i]["func_content"]  # 设置内容
-        slide.Shapes(sh_index + 1).TextFrame.TextRange.Text = funcs[i]["func_title"]  # 设置小标题
+        slide.Shapes(sh_index).TextFrame.TextRange.Text = funcs[i]["skt19.skf205"]  # 设置内容
+        slide.Shapes(sh_index + 1).TextFrame.TextRange.Text = funcs[i]["skt19.skf204"]  # 设置小标题
 
         # 设置图标保存尺寸，单位磅，1厘米=28.35磅
         shape_circle = slide.Shapes(sh_index - 1)  # 小圆圈
-        size = 25
-        position = (shape_circle.Width - 25) / 2
+        size = 20  # 功能图标尺寸
+        position = (shape_circle.Width - size) / 2
 
         # 下载图标,这里截取掉分号
-        filepath = get_data.downfile(funcs[i]["func_logo"][:-1], ".png")
+        filepath = get_data.downfile(funcs[i]["skt19.skf203"][:-1], ".png")
         # 把图标插入到页面,并缩放，位移居中
         slide.Shapes.AddPicture(FileName=filepath, LinkToFile=False, SaveWithDocument=True,
                                 Left=shape_circle.Left + position,
@@ -105,15 +103,14 @@ def func_pages(tempPPt, site):
         print("", i, slide.Shapes(sh_index + 1).TextFrame.TextRange.Text)
 
 
-# 解决方案页
-def solution(tempPPt, site):
-    print("\n生成解决方案列表：")
+# 3.3产品方案-解决方案
+def pro_solution(index, tempPPT, sys):
+    print("\n3.3产品方案-解决方案：")
     # 功能模板
-    index = 6  # 功能下标
-    slide = tempPPt.Slides(index)
+    slide = tempPPT.Slides(index)
     # 查询数据
-    solution_title = get_data.request(site, "首页_解决方案标题")  # 大标题
-    solutions = get_data.request(site, "首页_解决方案")  # 数据
+    solution_title = get_data.request("首页", sys, "首页_解决方案标题")  # 大标题
+    solutions = get_data.request("首页", sys, "首页_解决方案")  # 数据
 
     slide.Shapes(1).TextFrame.TextRange.Text = solution_title[0]["index_solution_title"]  # 设置大标题
     # 循环数据，每一条记录保存为一页
@@ -142,14 +139,57 @@ def solution(tempPPt, site):
         slide.Shapes(4).Delete()
 
 
+# 3.4产品方案-功能展示截图
+def pro_function_show(index, tempPPT, sys):
+    print("\n3.4产品方案-解决方案：")
+    slide = tempPPT.Slides(index)
+
+
 # 保存ppt
-def save(tempPPT):
+def save(tempPPT, filename):
     # 文件保存名称
-    saveName = conf.pptinfo["项目名"] + time.strftime('%Y%m%d', time.localtime(time.time())) + ".pptx"
+    saveName = filename + time.strftime('%Y%m%d', time.localtime(time.time())) + ".pptx"
     # 保存为指定ppt
     tempPPT.SaveAs(conf.path_save + saveName)
+    # 删除缓存图片
+    os.chdir(conf.path_image)
+    os.system('del /Q *.png')
     print('\n保存成功:', saveName)
 
 
+#  系统功能 index 5 ----  暂不使用
+def sys_function(index, tempPPT, sys):
+    print("\n3.2产品方案-产品简介：")
+    # 功能模板
+    slide = tempPPT.Slides(index)
+    # 查询数据
+    func_title = get_data.request("首页", sys, "首页_功能标题")  # 大标题
+    funcs = get_data.request("首页", sys, "首页_功能")  # 数据
+
+    slide.Shapes(1).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
+    slide.Shapes(6).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
+    slide.Shapes(7).TextFrame.TextRange.Text = func_title[0]["index_func_title"]  # 设置大标题
+    # 循环数据，每一条记录保存为一页
+    for i in range(0, len(funcs)):
+        sh_index = int(i / 3 + 1) * 10 + int(i % 3 + 1) * 3  # 下标
+
+        slide.Shapes(sh_index).TextFrame.TextRange.Text = funcs[i]["func_content"]  # 设置内容
+        slide.Shapes(sh_index + 1).TextFrame.TextRange.Text = funcs[i]["func_title"]  # 设置小标题
+
+        # 设置图标保存尺寸，单位磅，1厘米=28.35磅
+        shape_circle = slide.Shapes(sh_index - 1)  # 小圆圈
+        size = 25
+        position = (shape_circle.Width - 25) / 2
+
+        # 下载图标,这里截取掉分号
+        filepath = get_data.downfile(funcs[i]["func_logo"][:-1], ".png")
+        # 把图标插入到页面,并缩放，位移居中
+        slide.Shapes.AddPicture(FileName=filepath, LinkToFile=False, SaveWithDocument=True,
+                                Left=shape_circle.Left + position,
+                                Top=shape_circle.Top + position, Width=size, Height=size)
+        print("", i, slide.Shapes(sh_index + 1).TextFrame.TextRange.Text)
+
+
 if __name__ == "__main__":
-    genarate('资产设备管理系统', "模板2")
+    # 系统名，产品名，模板
+    genarate('图书管理系统', "晨科图书管理系统", "模板2")
