@@ -30,13 +30,13 @@ def genarate(sys, product, temp_name):
 
     first_page(tempPPT)  # 首页，封面页
 
-    unit_2 = 3
-    sys_adv(unit_2 + 1, tempPPT, conf.info["系统名"])  # 2.4问题分析-优点 （数据在首页）
+    unit_2 = 8
+    sys_adv(unit_2 + 4, tempPPT, conf.info["系统名"])  # 2.4问题分析-优点 （数据在首页）
 
-    unit_3 = 5
-    # pro_intro(unit_3 + 1, tempPPT, conf.info["项目名"])  # 3.1产品方案-产品简介
-    # pro_function(unit_3 + 2, tempPPT, conf.info["项目名"])  # 3.2产品方案-功能特点
-    # pro_solution(unit_3 + 3, tempPPT, conf.info["系统名"])  # 3.3产品方案-解决方案（行业）
+    unit_3 = 13
+    pro_intro(unit_3 + 1, tempPPT, conf.info["项目名"])  # 3.1产品方案-产品简介
+    pro_function(unit_3 + 2, tempPPT, conf.info["项目名"])  # 3.2产品方案-功能特点
+    pro_solution(unit_3 + 3, tempPPT, conf.info["系统名"])  # 3.3产品方案-解决方案（行业）
     pro_function_show(unit_3 + 4, tempPPT, conf.info["项目名"])  # 3.4产品方案-功能展示（截图）
 
     # 保存
@@ -252,4 +252,5 @@ def sys_function(index, tempPPT, sys):
 
 if __name__ == "__main__":
     # 系统名，产品名，模板
-    genarate('图书管理系统', "晨科图书管理系统", "模板2")
+    genarate('图书管理系统', "晨科图书管理系统", "模板1")
+
